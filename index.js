@@ -1,4 +1,6 @@
 const inquirer = require("inquirer");
+const db = require("./db/connection");
+const cTable = require("console.table");
 
 const promptUser = () => {
   return inquirer
@@ -21,14 +23,26 @@ const promptUser = () => {
     .then((response) => {
       switch (response.startQuestion) {
         case "view all departments":
-          console.log("departments");
+          const sql = `SELECT * FROM department`;
+          db.query(sql, (err, rows) => {
+            console.table(rows);
+          });
           break;
+
         case "view all roles":
-          console.log("roles");
+          const sql1 = `SELECT * FROM roles`;
+          db.query(sql1, (err, rows) => {
+            console.table(rows);
+          });
           break;
+
         case "view all employees":
-          console.log("employees");
+          const sql3 = `SELECT * FROM employee`;
+          db.query(sql3, (err, rows) => {
+            console.table(rows);
+          });
           break;
+
         case "add a department":
           console.log("add department");
           break;
@@ -50,3 +64,8 @@ const promptUser = () => {
 };
 
 promptUser();
+
+db.connect((err) => {
+  if (err) throw err;
+  console.log("Database connected.");
+});
