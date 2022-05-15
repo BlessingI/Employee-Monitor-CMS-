@@ -19,9 +19,6 @@ const promptUser = () => {
       },
     ])
     .then((response) => {
-      //   if(response.startQuestion === "view all departments"){
-      //       console.log("yeah")
-      //   }
       switch (response.startQuestion) {
         case "view all departments":
           console.log("departments");
