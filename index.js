@@ -44,7 +44,19 @@ const promptUser = () => {
           break;
 
         case "add a department":
-          console.log("add department");
+        //   const sql4 = `INSERT INTO department (name) VALUES (?)`;
+        //   const params = [body.first_name];
+
+        //   db.query(sql4, params, (err, result) => {
+        //     if (err) {
+        //       res.status(400).json({ error: err.message });
+        //       return;
+        //     }
+        //     res.json({
+        //       message: "success",
+        //       data: body,
+        //     });
+        //   });
           break;
         case "add a role":
           console.log("add role");

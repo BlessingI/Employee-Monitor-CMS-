@@ -1,10 +1,10 @@
 INSERT INTO department (name)
 VALUES
-  ('Blessinng'),
-  ('Jane'),
-  ('George'),
-  ('Boyle'),
-  ('lisa');
+  ('Accounting'),
+  ('Payroll'),
+  ('Fishery'),
+  ('IT'),
+  ('Software');
 
 INSERT INTO roles (title, salary, department_id)
 VALUES
@@ -14,7 +14,7 @@ VALUES
   ('Engineer', 13.0, 1),
   ('Intern', 12.0, 1);
 
-  INSERT INTO employee (first_name, last_name, role_id, manager_id)
+INSERT INTO employee (first_name, last_name, role_id, manager_id)
 VALUES
   ('James', 'Fraser', 1, 1),
   ('Jack', 'London', 2, 2),
