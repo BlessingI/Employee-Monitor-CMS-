@@ -2,6 +2,110 @@ const inquirer = require("inquirer");
 const db = require("./db/connection");
 const cTable = require("console.table");
 
+function viewAllDepartment() {
+  const sql = `SELECT * FROM department`;
+  db.query(sql, (err, rows) => {
+    console.table(rows);
+  });
+}
+
+function viewAllRoles() {
+  const sql1 = `select roles.id AS Roles_Id, roles.title AS Roles_title, roles.salary AS Roles_Salary, department.name AS Department_Name FROM roles INNER JOIN department ON roles.department_id=department.id`;
+  db.query(sql1, (err, rows) => {
+    console.table(rows);
+  });
+}
+
+function viewAllEmployee() {
+  const sql3 = `select employee.id, employee.first_name, employee.last_name, roles.title,roles.salary, department.name AS Department_Name, employee.manager_id AS Employee_Manager 
+  from employee 
+  inner join 
+  roles on employee.role_id = roles.id
+  INNER JOIN department ON roles.department_id=department.id;`;
+  db.query(sql3, (err, rows) => {
+    console.table(rows);
+  });
+}
+
+function addedDeparment() {
+  inquirer
+    .prompt([
+      {
+        message: "what is the name of the department you want to add? ",
+        type: "input",
+        name: "dept",
+      },
+    ])
+    .then((answer) => {
+      var newName = answer.dept;
+      db.query(
+        "INSERT INTO department (name) VALUES(?)",
+        [newName],
+        function (err) {
+          if (err) throw err;
+          viewAllDepartment();
+        }
+      );
+    });
+}
+
+function addedDeparment() {
+  inquirer
+    .prompt([
+      {
+        message: "what is the name of the department you want to add? ",
+        type: "input",
+        name: "dept",
+      },
+    ])
+    .then((answer) => {
+      var newName = answer.dept;
+      db.query(
+        "INSERT INTO department (name) VALUES(?)",
+        [newName],
+        function (err) {
+          if (err) throw err;
+          console.log(`added ${newName} to the database`);
+          viewAllDepartment();
+        }
+      );
+    });
+}
+
+function addedRoles() {
+  inquirer
+    .prompt([
+      {
+        message: "what is the name of the role you want to add? ",
+        type: "input",
+        name: "role",
+      },
+      {
+        message: "what is the Salary of the role? ",
+        type: "input",
+        name: "number",
+      },
+      {
+        message: "which department does the role belong to? ",
+        type: "input",
+        name: "roledept",
+      },
+    ])
+    .then((answer) => {
+      var newRole = answer.role;
+      var salaryAmount = answer.number;
+      var departmentName = answer.roledept;
+      db.query(
+        "INSERT INTO roles (title, salary, department_id) VALUES(?,?,?)",
+        [newRole, salaryAmount, departmentName],
+        function (err) {
+          if (err) throw err;
+          viewAllRoles();
+        }
+      );
+    });
+}
+
 const promptUser = () => {
   return inquirer
     .prompt([
@@ -23,43 +127,22 @@ const promptUser = () => {
     .then((response) => {
       switch (response.startQuestion) {
         case "view all departments":
-          const sql = `SELECT * FROM department`;
-          db.query(sql, (err, rows) => {
-            console.table(rows);
-          });
+          viewAllDepartment();
           break;
 
         case "view all roles":
-          const sql1 = `SELECT * FROM roles`;
-          db.query(sql1, (err, rows) => {
-            console.table(rows);
-          });
+          viewAllRoles();
           break;
 
         case "view all employees":
-          const sql3 = `SELECT * FROM employee`;
-          db.query(sql3, (err, rows) => {
-            console.table(rows);
-          });
+          viewAllEmployee();
           break;
 
         case "add a department":
-        //   const sql4 = `INSERT INTO department (name) VALUES (?)`;
-        //   const params = [body.first_name];
-
-        //   db.query(sql4, params, (err, result) => {
-        //     if (err) {
-        //       res.status(400).json({ error: err.message });
-        //       return;
-        //     }
-        //     res.json({
-        //       message: "success",
-        //       data: body,
-        //     });
-        //   });
+          addedDeparment();
           break;
         case "add a role":
-          console.log("add role");
+          addedRoles();
           break;
         case "add an employee":
           console.log("add an employee");
