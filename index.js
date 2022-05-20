@@ -31,6 +31,7 @@ function addedDeparment() {
   inquirer
     .prompt([
       {
+        name: "newDepartment",
         message: "what is the name of the department you want to add? ",
         type: "input",
         name: "dept",
@@ -73,37 +74,70 @@ function addedDeparment() {
 }
 
 function addedRoles() {
-  inquirer
-    .prompt([
-      {
-        message: "what is the name of the role you want to add? ",
-        type: "input",
-        name: "role",
-      },
-      {
-        message: "what is the Salary of the role? ",
-        type: "input",
-        name: "number",
-      },
-      {
-        message: "which department does the role belong to? ",
-        type: "input",
-        name: "roledept",
-      },
-    ])
-    .then((answer) => {
-      var newRole = answer.role;
-      var salaryAmount = answer.number;
-      var departmentName = answer.roledept;
-      db.query(
-        "INSERT INTO roles (title, salary, department_id) VALUES(?,?,?)",
-        [newRole, salaryAmount, departmentName],
-        function (err) {
-          if (err) throw err;
-          viewAllRoles();
-        }
-      );
+  const sql = `SELECT * FROM department`;
+  db.query(sql, (err, rows) => {
+    let deptArraynames = [];
+    rows.forEach((department) => {
+      deptArraynames.push(department.name);
     });
+    deptArraynames.push("Add new Department");
+    inquirer
+      .prompt([
+        {
+          name: "departmentName",
+          message: "which department does the role belong to? ",
+          type: "list",
+          choices: deptArraynames,
+        },
+      ])
+      .then((answer) => {
+        if (answer.departmentName === "Add new Department") {
+          console.log("You must add the Department First")
+          addedDeparment();
+        } else {
+          addRoleResume(answer);
+        }
+      });
+
+    const addRoleResume = (departmentData) => {
+      inquirer
+        .prompt([
+          {
+            message: "what is the name of the role you want to add? ",
+            type: "input",
+            name: "role",
+          },
+          {
+            message: "what is the Salary of the role? ",
+            type: "input",
+            name: "number",
+          },
+        ])
+        .then((answer) => {
+          var newRole = answer.role;
+          var salaryAmount = answer.number;
+          let departmentId;
+
+          console.log(rows);
+
+          rows.forEach((department) => {
+            if (departmentData.departmentName === department.name) {
+              departmentId = department.id;
+              console.log(departmentId);
+            }
+          });
+
+          db.query(
+            "INSERT INTO roles (title, salary, department_id) VALUES(?,?,?)",
+            [newRole, salaryAmount, departmentId],
+            function (err) {
+              if (err) throw err;
+              viewAllRoles();
+            }
+          );
+        });
+    };
+  });
 }
 
 const promptUser = () => {
