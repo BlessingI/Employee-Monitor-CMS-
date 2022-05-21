@@ -75,7 +75,7 @@ function updatedEmployeeRole() {
             }
           });
 
-          let employeesqls = `UPDATE employee SET employee.role_id = ? WHERE employee.id = ?`;
+          let employeesqls = `UPDATE employee SET role_id=? WHERE id=?;`;
 
           db.query(
             employeesqls,
@@ -248,6 +248,8 @@ function addedRoles() {
   });
 }
 
+
+
 module.exports = {
   viewAllDepartment,
   viewAllEmployee,
@@ -255,10 +257,9 @@ module.exports = {
   updatedEmployeeRole,
   addedEmployee,
   addedRoles,
-  addedDepartment,
+  addedDepartment
 };
 
 db.connect((err) => {
   if (err) throw err;
-  console.log("Database connected.");
 });

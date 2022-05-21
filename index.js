@@ -1,4 +1,5 @@
 const inquirer = require("inquirer");
+const db = require("./db/connection");
 
 const {
   viewAllDepartment,
@@ -62,4 +63,7 @@ const promptUser = () => {
     });
 };
 
-promptUser();
+
+
+promptUser()
+
