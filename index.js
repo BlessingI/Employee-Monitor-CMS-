@@ -17,11 +17,7 @@ function viewAllRoles() {
 }
 
 function viewAllEmployee() {
-  const sql3 = `select employee.id, employee.first_name, employee.last_name, roles.title,roles.salary, department.name AS Department_Name, employee.manager_id AS Employee_Manager 
-  from employee 
-  inner join 
-  roles on employee.role_id = roles.id
-  INNER JOIN department ON roles.department_id=department.id;`;
+  const sql3 = `SELECT e.id AS "Employee ID", e.first_name AS "First Name", e.last_name AS "LAST NAME", roles.title AS Title, roles.salary AS Salary, department.name AS "Department Name", m.first_name AS "Employees Manager" From employee e JOIN roles ON e.role_id = roles.id JOIN department ON roles.department_id = department.id LEFT JOIN employee m ON m.id = e.manager_id;`
   db.query(sql3, (err, rows) => {
     console.table(rows);
   });
