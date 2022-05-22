@@ -4,6 +4,8 @@
 ## Description
   🔍 A node.js application that uses user input from inquirer to populate an employee tracker database displaying members of a company.
 
+[Click on the link to see a video of how the application works](https://drive.google.com/file/d/1hJx75AtsPk08GDYf5bp0ts23LYjGhOAt/view)
+
 ## User Story
   
 ```
@@ -58,3 +60,6 @@ https://github.com/BlessingI/Employee-Monitor-CMS-.git
   <br>
   ✉️ My email address: bigbadumhe@gmail.com
 
+## Image
+![EmployeeMonitorCMS](./assets/images/EMS-image1.png)
+![EmployeeMonitorCMS](./assets/images/EMS-image2.png)
