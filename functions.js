@@ -231,7 +231,6 @@ function addedRoles() {
           rows.forEach((department) => {
             if (departmentData.departmentName === department.name) {
               departmentId = department.id;
-              console.log(departmentId);
             }
           });
 
